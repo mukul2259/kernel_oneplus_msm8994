@@ -285,7 +285,7 @@ static void update_if_frozen(struct cgroup_subsys_state *css)
 	/* are all tasks frozen? */
 	cgroup_task_iter_start(css->cgroup, &it);
 
-	while ((task = cgroup_task_iter_next(css->cgroup, &it))) {
+	while ((task = cgroup_task_iter_next(&it))) {
 		if (freezing(task)) {
 			/*
 			 * freezer_should_skip() indicates that the task
@@ -300,7 +300,7 @@ static void update_if_frozen(struct cgroup_subsys_state *css)
 
 	freezer->state |= CGROUP_FROZEN;
 out_iter_end:
-	cgroup_task_iter_end(css->cgroup, &it);
+	cgroup_task_iter_end(&it);
 out_unlock:
 	spin_unlock_irq(&freezer->lock);
 }
@@ -331,14 +331,14 @@ static void freeze_cgroup(struct freezer *freezer)
 	struct task_struct *task;
 
 	cgroup_task_iter_start(cgroup, &it);
-	while ((task = cgroup_task_iter_next(cgroup, &it)))
+        while ((task = cgroup_task_iter_next(&it)))
 	    #ifdef VENDOR_EDIT
             //huruihuan add for freezing task in cgroup despite of PF_FREEZER_SKIP flag
                 freeze_cgroup_task(task);
             #else
 	        freeze_task(task);
             #endif
-	cgroup_task_iter_end(cgroup, &it);
+	cgroup_task_iter_end(&it);
 }
 
 static void unfreeze_cgroup(struct freezer *freezer)
@@ -348,9 +348,9 @@ static void unfreeze_cgroup(struct freezer *freezer)
 	struct task_struct *task;
 
 	cgroup_task_iter_start(cgroup, &it);
-	while ((task = cgroup_task_iter_next(cgroup, &it)))
+	while ((task = cgroup_task_iter_next(&it)))
 		__thaw_task(task);
-	cgroup_task_iter_end(cgroup, &it);
+	cgroup_task_iter_end(&it);
 }
 
 /**
