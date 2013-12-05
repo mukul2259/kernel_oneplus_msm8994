@@ -305,10 +305,9 @@ out_unlock:
 	spin_unlock_irq(&freezer->lock);
 }
 
-static int freezer_read(struct cgroup_subsys_state *css, struct cftype *cft,
-			struct seq_file *m)
+static int freezer_read(struct seq_file *m, void *v)
 {
-	struct cgroup_subsys_state *pos;
+	struct cgroup_subsys_state *css = seq_css(m), *pos;
 
 	rcu_read_lock();
 
@@ -535,7 +534,7 @@ static struct cftype files[] = {
 	{
 		.name = "state",
 		.flags = CFTYPE_NOT_ON_ROOT,
-		.read_seq_string = freezer_read,
+		.seq_show = freezer_read,
 		.write_string = freezer_write,
 	},
 	{
