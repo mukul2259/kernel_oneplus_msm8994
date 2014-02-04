@@ -892,7 +892,6 @@ static void data_fn_tasklet(unsigned long data)
 	int errno;
 	char buf[MAX_ERR_BUFFER_SIZE] = {0};
 
-
 	spin_lock(&msm_rpm_data.smd_lock_read);
 	while (smd_is_pkt_avail(msm_rpm_data.ch_info)) {
 		if (msm_rpm_read_smd_data(buf))
