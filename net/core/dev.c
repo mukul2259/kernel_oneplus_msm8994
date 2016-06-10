@@ -2855,7 +2855,8 @@ int dev_queue_xmit(struct sk_buff *skb)
 
 		if (txq->xmit_lock_owner != cpu) {
 
-			if (__this_cpu_read(xmit_recursion) > RECURSION_LIMIT)
+                       if (unlikely(__this_cpu_read(xmit_recursion) >
+                                    XMIT_RECURSION_LIMIT))
 				goto recursion_alert;
 
 			HARD_TX_LOCK(dev, txq, cpu);
