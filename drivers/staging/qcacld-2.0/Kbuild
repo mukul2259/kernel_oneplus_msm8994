@@ -69,6 +69,9 @@ ifeq ($(KERNEL_BUILD), 0)
 		endif
 	endif
 
+	# Force user build
+	TARGET_BUILD_VARIANT := user
+
 	#Flag to enable Legacy Fast Roaming3(LFR3)
 	CONFIG_QCACLD_WLAN_LFR3 := y
 
