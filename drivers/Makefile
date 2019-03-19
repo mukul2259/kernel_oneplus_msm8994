@@ -166,6 +166,10 @@ obj-$(CONFIG_ESOC)		+= esoc/
 obj-$(CONFIG_BIF)		+= bif/
 obj-$(CONFIG_SENSORS)		+= sensors/
 obj-$(CONFIG_SENSORS_SSC)	+= sensors/
+
+#kmsg
+obj-y                           += lastkmsg/
+
 #ifdef VENDOR_EDIT
 # hefaxi@filesystem,2015/05/05,support param partion read/write
 obj-y 	+= param_read_write/
