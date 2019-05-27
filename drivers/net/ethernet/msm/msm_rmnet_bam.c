@@ -140,7 +140,7 @@ static ssize_t timeout_store(struct device *d, struct device_attribute *attr,
 			     const char *buf, size_t n)
 {
 	struct rmnet_private *p = netdev_priv(to_net_dev(d));
-	p->timeout_us = timeout_us = strict_strtoul(buf, NULL, 10);
+	p->timeout_us = timeout_us = kstrtoul(buf, NULL, 10);
 	return n;
 }
 
