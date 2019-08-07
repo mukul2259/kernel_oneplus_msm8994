@@ -153,7 +153,11 @@ struct seemp_logk_blk {
 	char       msg[BLK_SIZE-BLK_HDR_SIZE]; /* the entry's payload */
 };
 
+#ifdef CONFIG_DEBUG_KERNEL
 extern unsigned int kmalloc_flag;
+#else
+static const unsigned int kmalloc_flag;
+#endif
 
 struct seemp_source_mask {
 	__u32       hash;
