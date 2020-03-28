@@ -53,6 +53,10 @@ dsi_jd35695_1080_cmd: qcom,mdss_dsi_jd35695_1080p_cmd {
 			      qcom,mdss-dsi-bpp = <24>;
 			      qcom,mdss-dsi-underflow-color = <0x0000ff>;
 			      qcom,mdss-dsi-border-color = <0>;
+
+			      qcom,ulps-enabled;
+			      qcom,suspend-ulps-enabled;
+
 			      qcom,mdss-dsi-on-command = [
 				      15 01 00 00 00 00 02 FF 10
 				      15 01 00 00 00 00 02 35 00
