@@ -34,6 +34,7 @@
 #include <linux/cleancache.h>
 #include <linux/fsnotify.h>
 #include <linux/lockdep.h>
+#include <linux/list_lru.h>
 #include <linux/user_namespace.h>
 #include "internal.h"
 
