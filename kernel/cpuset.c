@@ -1747,7 +1747,7 @@ static int cpuset_common_seq_show(struct seq_file *sf, void *v)
 
 	switch (type) {
 	case FILE_CPULIST:
-		s += cpulist_scnprintf(s, count, cs->cpus_allowed);
+		s += cpulist_scnprintf(s, count, cs->cpus_requested);
 		break;
 	case FILE_MEMLIST:
 		s += nodelist_scnprintf(s, count, cs->mems_allowed);
@@ -2117,7 +2117,7 @@ static void remove_tasks_in_empty_cpuset(struct cpuset *cs)
  */
 static void cpuset_hotplug_update_tasks(struct cpuset *cs)
 {
-        static cpumask_t diff, new_allowed;
+	static cpumask_t diff, new_allowed;
 	static nodemask_t off_mems;
 	bool is_empty;
 	bool sane = cgroup_sane_behavior(cs->css.cgroup);
