@@ -259,9 +259,6 @@ pgoff_t page_cache_prev_hole(struct address_space *mapping,
 
 extern struct page * find_get_page(struct address_space *mapping,
 				pgoff_t index);
-pgoff_t page_cache_next_hole(struct address_space *mapping,
-                             pgoff_t index, unsigned long max_scan);
-
 extern struct page * find_lock_page(struct address_space *mapping,
 				pgoff_t index);
 extern struct page * find_or_create_page(struct address_space *mapping,
