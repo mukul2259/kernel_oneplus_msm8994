@@ -427,6 +427,11 @@ static inline bool d_is_su(const struct dentry *dentry)
 	       !memcmp(dentry->d_name.name, "su", 2);
 }
 
+static inline bool d_is_negative(const struct dentry *dentry)
+{
+	return (dentry->d_inode == NULL);
+}
+
 extern int sysctl_vfs_cache_pressure;
 
 struct name_snapshot {
