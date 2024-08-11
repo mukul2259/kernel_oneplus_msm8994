@@ -2981,6 +2981,16 @@ static struct pid *pidfd_to_pid(const struct file *file)
 	return tgid_pidfd_to_pid(file);
 }
 
+#ifdef CONFIG_COMPAT
+/*
+ * API in_compat_syscall() is introduced in 4.6 kernel to check whether we're
+ * in a compat syscall or not. It is a new way to query the syscall type, which
+ * works properly on all architectures.
+ *
+ */
+static inline bool in_compat_syscall(void) { return is_compat_task(); }
+#endif
+
 static int copy_siginfo_from_user_any(siginfo_t *kinfo, siginfo_t __user *info)
 {
 #ifdef CONFIG_COMPAT
