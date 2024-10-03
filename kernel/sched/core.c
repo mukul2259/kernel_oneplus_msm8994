@@ -10182,19 +10182,6 @@ long tg_get_cfs_period(struct task_group *tg)
 	return cfs_period_us;
 }
 
-#ifdef VENDOR_EDIT
-static s64 cpu_cfs_quota_per_task_read_s64(struct cgroup *cgrp, struct cftype *cft)
-{
-	return tg_get_cfs_quota_per_task(cgroup_tg(cgrp));
-}
-
-static int cpu_cfs_quota_per_task_write_s64(struct cgroup *cgrp, struct cftype *cftype,
-				s64 cfs_quota_us)
-{
-	return tg_set_cfs_quota_per_task(cgroup_tg(cgrp), cfs_quota_us);
-}
-#endif
-
 static s64 cpu_cfs_quota_read_s64(struct cgroup_subsys_state *css,
 				  struct cftype *cft)
 {
@@ -10358,13 +10345,6 @@ static struct cftype cpu_files[] = {
 	},
 #endif
 #ifdef CONFIG_CFS_BANDWIDTH
-#ifdef VENDOR_EDIT
-	{
-		.name = "cfs_quota_us_per_task",
-		.read_s64 = cpu_cfs_quota_per_task_read_s64,
-		.write_s64 = cpu_cfs_quota_per_task_write_s64,
-	},
-#endif
 	{
 		.name = "cfs_quota_us",
 		.read_s64 = cpu_cfs_quota_read_s64,
