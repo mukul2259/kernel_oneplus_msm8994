@@ -183,7 +183,7 @@ static inline u32 arch_gettimeoffset(void) { return 0; }
 static inline s64 timekeeping_get_ns(struct tk_read_base *tkr)
 {
 	cycle_t cycle_now, delta;
-	u64 nsec;
+	s64 nsec;
 
 	/* read clocksource: */
 	cycle_now = tkr->read(tkr->clock);
@@ -476,15 +476,6 @@ void getnstimeofday(struct timespec *ts)
 	WARN_ON(__getnstimeofday(ts));
 }
 EXPORT_SYMBOL(getnstimeofday);
-
-void getnstimeofday_no_nsecs(struct timespec *ts)
-{
-	struct timekeeper *tk = &timekeeper;
-	ts->tv_sec = tk->xtime_sec;
-}
-
-EXPORT_SYMBOL(getnstimeofday_no_nsecs);
-
 
 ktime_t ktime_get(void)
 {
