@@ -57,14 +57,8 @@
 
 #define IOCTL_OTRACER_PANIC		(1<<12)
 
-struct vmalloc_info {
-	unsigned long	used;
-	unsigned long	largest_chunk;
-};
-
 #ifdef CONFIG_MMU
 #define VMALLOC_TOTAL (VMALLOC_END - VMALLOC_START)
-extern void get_vmalloc_info(struct vmalloc_info *vmi);
 #endif
 
 
@@ -169,7 +163,6 @@ void meminfo_test_saved(void)
 struct sysinfo i;
 	unsigned long committed;
 	unsigned long allowed;
-	struct vmalloc_info vmi;
 	long cached;
 	unsigned long pages[NR_LRU_LISTS];
 	int lru;
@@ -188,8 +181,6 @@ struct sysinfo i;
 			total_swapcache_pages() - i.bufferram;
 	if (cached < 0)
 		cached = 0;
-
-	get_vmalloc_info(&vmi);
 
 	for (lru = LRU_BASE; lru < NR_LRU_LISTS; lru++)
 		pages[lru] = global_page_state(NR_LRU_BASE + lru);
@@ -300,8 +291,8 @@ struct sysinfo i;
 		K(allowed),
 		K(committed),
 		(unsigned long)VMALLOC_TOTAL >> 10,
-		vmi.used >> 10,
-		vmi.largest_chunk >> 10
+		0ul, // used to be vmalloc 'used'
+		0ul  // used to be vmalloc 'largest_chunk'
 #ifdef CONFIG_MEMORY_FAILURE
 		,atomic_long_read(&num_poisoned_pages) << (PAGE_SHIFT - 10)
 #endif
