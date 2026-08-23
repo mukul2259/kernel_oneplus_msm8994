@@ -1512,13 +1512,8 @@ static int tun_recvmsg(struct socket *sock, struct msghdr *m, size_t total_len,
 	if (!tun)
 		return -EBADFD;
 
-	if (flags & ~(MSG_DONTWAIT|MSG_TRUNC|MSG_ERRQUEUE)) {
+	if (flags & ~(MSG_DONTWAIT|MSG_TRUNC)) {
 		ret = -EINVAL;
-		goto out;
-	}
-	if (flags & MSG_ERRQUEUE) {
-		ret = sock_recv_errqueue(sock->sk, m, total_len,
-					 SOL_PACKET, TUN_TX_TIMESTAMP);
 		goto out;
 	}
 	ret = tun_do_read(tun, tfile, m->msg_iov, total_len,
