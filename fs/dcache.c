@@ -963,7 +963,23 @@ static void shrink_dcache_for_umount_subtree(struct dentry *dentry)
 				       dentry->d_count,
 				       dentry->d_sb->s_type->name,
 				       dentry->d_sb->s_id);
-				BUG();
+				/*
+				 * A dentry that is still referenced must not be
+				 * torn down (iput/free); just ascend to the
+				 * parent and continue so the umount does not
+				 * panic. Matches the 4.4 backport used by
+				 * acroreiser's booting trees.
+				 */
+				WARN_ON(1);
+				if (IS_ROOT(dentry)) {
+					parent = NULL;
+					list_del(&dentry->d_child);
+				} else {
+					parent = dentry->d_parent;
+					parent->d_count--;
+					list_del(&dentry->d_child);
+				}
+				goto ascend;
 			}
 
 			if (IS_ROOT(dentry)) {
@@ -987,6 +1003,7 @@ static void shrink_dcache_for_umount_subtree(struct dentry *dentry)
 
 			d_free(dentry);
 
+ascend:
 			/* finished when we fall off the top of the tree,
 			 * otherwise we ascend to the parent and move to the
 			 * next sibling if there is one */
