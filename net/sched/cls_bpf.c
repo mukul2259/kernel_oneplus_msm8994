@@ -151,11 +151,6 @@ static bool cls_bpf_is_ebpf(const struct cls_bpf_prog *prog)
  * However, if the list being initialized is visible to readers, you
  * need to keep the compiler from being too mischievous.
  */
-static inline void INIT_LIST_HEAD_RCU(struct list_head *list)
-{
-	ACCESS_ONCE(list->next) = list;
-	ACCESS_ONCE(list->prev) = list;
-}
 
 static int cls_bpf_init(struct tcf_proto *tp)
 {

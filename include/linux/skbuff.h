@@ -743,6 +743,14 @@ static inline __u32 skb_get_rxhash(struct sk_buff *skb)
 	return skb->rxhash;
 }
 
+static inline __u32 skb_get_hash(struct sk_buff *skb)
+{
+	if (!skb->l4_rxhash)
+		__skb_get_rxhash(skb);
+
+	return skb->rxhash;
+}
+
 static inline void skb_clear_hash(struct sk_buff *skb)
 {
 	skb->rxhash = 0;
@@ -1828,6 +1836,11 @@ static inline int skb_transport_offset(const struct sk_buff *skb)
 static inline u32 skb_network_header_len(const struct sk_buff *skb)
 {
 	return skb->transport_header - skb->network_header;
+}
+
+static inline u32 skb_mac_header_len(const struct sk_buff *skb)
+{
+	return skb->network_header - skb->mac_header;
 }
 
 static inline u32 skb_inner_network_header_len(const struct sk_buff *skb)
